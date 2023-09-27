@@ -49,12 +49,14 @@ export default function map() {
         return position === null ? null : (
             <Marker position={position}>
                 <Popup>
-                    You are here. <br />
+                    {/* You are here. <br />
                     Map bbox: <br />
                     <b>Southwest lng</b>: {bbox[0]} <br />
                     <b>Southwest lat</b>: {bbox[1]} <br />
                     <b>Northeast lng</b>: {bbox[2]} <br />
-                    <b>Northeast lat</b>: {bbox[3]}
+                    <b>Northeast lat</b>: {bbox[3]} */}
+                    <h1>現在地</h1>
+                    <span>{position.lat}</span>
                 </Popup>
             </Marker>
         );
@@ -70,6 +72,9 @@ export default function map() {
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                // subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
+                // attribution="Google Maps"
+                // url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
             />
             <LocationMarker />
         </MapContainer>

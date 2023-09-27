@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 
 function MapPage() {
@@ -19,21 +19,9 @@ function MapPage() {
   );
   return (
     <main>
-      {/* <div className="container-fluid"> */}
-        <header>
-          <h1>Map</h1>
-          <p>test</p>
-        </header>
+        <Header />
         <Map />
-        <footer className="p-2">
-          <ul id="footer-ul">
-            <li><FontAwesomeIcon icon={faHouse} className="fs-1" /></li>
-            <li>B</li>
-            <li>C</li>
-            <li>D</li>
-          </ul>
-        </footer>
-      {/* </div> */}
+        <Footer />
     </main>
   );
 }
