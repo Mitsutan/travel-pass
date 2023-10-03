@@ -25,7 +25,7 @@ export default function map() {
         let circle = null;
 
         useEffect(() => {
-            map.locate({ watch: true }).on("locationfound", async function (e) {
+            map.locate({ watch: true, maximumAge: 1000 }).on("locationfound", async function (e) {
                 setPosition(e.latlng);
                 map.flyTo(e.latlng, map.getZoom());
 
