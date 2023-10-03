@@ -1,5 +1,5 @@
 {
-  "name": "leaflet2",
+  "name": "travel-pass",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,7 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "bootstrap": "^5.3.2",
     "leaflet": "^1.9.4",
-    "next": "13.4.19",
+    "next": "^13.5.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-leaflet": "^4.2.1",
