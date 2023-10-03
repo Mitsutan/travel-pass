@@ -56,7 +56,7 @@ export default function map() {
         }, [map]);
 
         return position === null || userAddress.address === undefined ? null : (
-            <Marker position={position} userAddress={userAddress}>
+            <Marker position={position}>
                 <Popup>
                     <h1>現在地</h1>
                     <span>{
