@@ -19,6 +19,7 @@ export default function map() {
     function LocationMarker() {
         const [position, setPosition] = useState(null);
         const [bbox, setBbox] = useState([]);
+        const [userPos, setUserPos] = useState([]);
 
         const map = useMap();
         let circle = null;
@@ -33,16 +34,7 @@ export default function map() {
 
                 await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
                 .then((res) => res.json())
-                .then((data) => {
-                    localStorage.setItem("userPosName", data.display_name)
-                    localStorage.setItem("userPosCountry", data.address.country)
-                    localStorage.setItem("userPosProvince", data.address.province)
-                    localStorage.setItem("userPosCity", data.address.city)
-                    localStorage.setItem("userPosSuburb", data.address.suburb)
-                    localStorage.setItem("userPosNeighbourhood", data.address.neighbourhood)
-                    localStorage.setItem("userPosRoad", data.address.road)
-                    localStorage.setItem("userPosAmenity", data.address.amenity)
-                });
+                .then((data) => setUserPos(data));
 
                 const radius = e.accuracy;
                 if (circle === null) {
@@ -63,23 +55,17 @@ export default function map() {
             });
         }, [map]);
 
-        return position === null ? null : (
-            <Marker position={position}>
+        return position === null || userPos.address === undefined ? null : (
+            <Marker position={position} pos={userPos}>
                 <Popup>
-                    {/* You are here. <br />
-                    Map bbox: <br />
-                    <b>Southwest lng</b>: {bbox[0]} <br />
-                    <b>Southwest lat</b>: {bbox[1]} <br />
-                    <b>Northeast lng</b>: {bbox[2]} <br />
-                    <b>Northeast lat</b>: {bbox[3]} */}
                     <h1>現在地</h1>
                     <span>{
-                        (localStorage.getItem("userPosProvince") != "undefined" ? localStorage.getItem("userPosProvince") : "") +
-                        (localStorage.getItem("userPosCity") != "undefined" ? localStorage.getItem("userPosCity") : "") +
-                        (localStorage.getItem("userPosSuburb") != "undefined" ? localStorage.getItem("userPosSuburb") : "") +
-                        (localStorage.getItem("userPosNeighbourhood") != "undefined" ? localStorage.getItem("userPosNeighbourhood") : "") +
-                        (localStorage.getItem("userPosRoad") != "undefined" ? localStorage.getItem("userPosRoad") : "") +
-                        (localStorage.getItem("userPosAmenity") != "undefined" ? localStorage.getItem("userPosAmenity") : "")
+                        (userPos.address.province != undefined ? userPos.address.province : "") +
+                        (userPos.address.city != undefined ? userPos.address.city : "") +
+                        (userPos.address.suburb != undefined ? userPos.address.suburb : "") +
+                        (userPos.address.neighbourhood != undefined ? userPos.address.neighbourhood : "") +
+                        (userPos.address.road != undefined ? userPos.address.road : "") +
+                        (userPos.address.amenity != undefined ? userPos.address.amenity : "")
                         }</span>
                 </Popup>
             </Marker>
