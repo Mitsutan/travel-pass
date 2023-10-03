@@ -24,14 +24,14 @@ export default function map() {
         let circle = null;
 
         useEffect(() => {
-            map.locate({ watch: true }).on("locationfound", function (e) {
+            map.locate({ watch: true }).on("locationfound", async function (e) {
                 setPosition(e.latlng);
                 map.flyTo(e.latlng, map.getZoom());
 
                 localStorage.setItem("userPosLat", e.latlng.lat);
                 localStorage.setItem("userPosLng", e.latlng.lng);
 
-                fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
+                await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
                 .then((res) => res.json())
                 .then((data) => {
                     localStorage.setItem("userPosName", data.display_name)
