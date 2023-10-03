@@ -18,8 +18,8 @@ L.Icon.Default.mergeOptions({
 export default function map() {
     function LocationMarker() {
         const [position, setPosition] = useState(null);
-        const [bbox, setBbox] = useState([]);
-        const [userPos, setUserPos] = useState([]);
+        // const [bbox, setBbox] = useState([]);
+        const [userAddress, setUserAddress] = useState([]);
 
         const map = useMap();
         let circle = null;
@@ -34,7 +34,7 @@ export default function map() {
 
                 await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
                 .then((res) => res.json())
-                .then((data) => setUserPos(data));
+                .then((data) => setUserAddress(data));
 
                 const radius = e.accuracy;
                 if (circle === null) {
@@ -45,7 +45,7 @@ export default function map() {
                     circle.setRadius(radius);
                     circle.addTo(map);
                 }
-                setBbox(e.bounds.toBBoxString().split(","));
+                // setBbox(e.bounds.toBBoxString().split(","));
 
                 console.log("位置情報更新");
             }).on("locationerror", function (e) {
@@ -55,17 +55,17 @@ export default function map() {
             });
         }, [map]);
 
-        return position === null || userPos.address === undefined ? null : (
-            <Marker position={position} pos={userPos}>
+        return position === null || userAddress.address === undefined ? null : (
+            <Marker position={position} userAddress={userAddress}>
                 <Popup>
                     <h1>現在地</h1>
                     <span>{
-                        (userPos.address.province != undefined ? userPos.address.province : "") +
-                        (userPos.address.city != undefined ? userPos.address.city : "") +
-                        (userPos.address.suburb != undefined ? userPos.address.suburb : "") +
-                        (userPos.address.neighbourhood != undefined ? userPos.address.neighbourhood : "") +
-                        (userPos.address.road != undefined ? userPos.address.road : "") +
-                        (userPos.address.amenity != undefined ? userPos.address.amenity : "")
+                        (userAddress.address.province != undefined ? userAddress.address.province : "") +
+                        (userAddress.address.city != undefined ? userAddress.address.city : "") +
+                        (userAddress.address.suburb != undefined ? userAddress.address.suburb : "") +
+                        (userAddress.address.neighbourhood != undefined ? userAddress.address.neighbourhood : "") +
+                        (userAddress.address.road != undefined ? userAddress.address.road : "") +
+                        (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
                         }</span>
                 </Popup>
             </Marker>
