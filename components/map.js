@@ -27,6 +27,23 @@ export default function map() {
             map.locate({ watch: true }).on("locationfound", function (e) {
                 setPosition(e.latlng);
                 map.flyTo(e.latlng, map.getZoom());
+
+                localStorage.setItem("userPosLat", e.latlng.lat);
+                localStorage.setItem("userPosLng", e.latlng.lng);
+
+                fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
+                .then((res) => res.json())
+                .then((data) => {
+                    localStorage.setItem("userPosName", data.display_name)
+                    localStorage.setItem("userPosCountry", data.address.country)
+                    localStorage.setItem("userPosProvince", data.address.province)
+                    localStorage.setItem("userPosCity", data.address.city)
+                    localStorage.setItem("userPosSuburb", data.address.suburb)
+                    localStorage.setItem("userPosNeighbourhood", data.address.neighbourhood)
+                    localStorage.setItem("userPosRoad", data.address.road)
+                    localStorage.setItem("userPosAmenity", data.address.amenity)
+                });
+
                 const radius = e.accuracy;
                 if (circle === null) {
                     circle = L.circle(e.latlng, radius);
@@ -56,7 +73,14 @@ export default function map() {
                     <b>Northeast lng</b>: {bbox[2]} <br />
                     <b>Northeast lat</b>: {bbox[3]} */}
                     <h1>現在地</h1>
-                    <span>{position.lat}</span>
+                    <span>{
+                        (localStorage.getItem("userPosProvince") != "undefined" ? localStorage.getItem("userPosProvince") : "") +
+                        (localStorage.getItem("userPosCity") != "undefined" ? localStorage.getItem("userPosCity") : "") +
+                        (localStorage.getItem("userPosSuburb") != "undefined" ? localStorage.getItem("userPosSuburb") : "") +
+                        (localStorage.getItem("userPosNeighbourhood") != "undefined" ? localStorage.getItem("userPosNeighbourhood") : "") +
+                        (localStorage.getItem("userPosRoad") != "undefined" ? localStorage.getItem("userPosRoad") : "") +
+                        (localStorage.getItem("userPosAmenity") != "undefined" ? localStorage.getItem("userPosAmenity") : "")
+                        }</span>
                 </Popup>
             </Marker>
         );
@@ -64,7 +88,7 @@ export default function map() {
 
     return (
         <MapContainer
-            center={[35.689487, 139.691706]}
+            center={localStorage.getItem("userPosLat") ? [localStorage.getItem("userPosLat"), localStorage.getItem("userPosLng")] : [35.681236, 139.767125]}
             zoom={13}
             scrollWheelZoom
             style={{ minHeight: "80vh" }}
