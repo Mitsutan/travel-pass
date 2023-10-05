@@ -32,9 +32,11 @@ export default function map() {
                 localStorage.setItem("userPosLat", e.latlng.lat);
                 localStorage.setItem("userPosLng", e.latlng.lng);
 
-                await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
-                .then((res) => res.json())
-                .then((data) => setUserAddress(data));
+                // await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
+                await fetch("https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&datum=wgs&output=json&appid=dj00aiZpPWpiVHg0aGJQa21jbyZzPWNvbnN1bWVyc2VjcmV0Jng9ZGU-")
+                    .then((res) => res.json())
+                    .then((data) => setUserAddress(data));
+                    // .then((res) => console.log(res));
 
                 const radius = e.accuracy;
                 if (circle === null) {
@@ -66,7 +68,7 @@ export default function map() {
                         (userAddress.address.neighbourhood != undefined ? userAddress.address.neighbourhood : "") +
                         (userAddress.address.road != undefined ? userAddress.address.road : "") +
                         (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
-                        }</span>
+                    }</span>
                 </Popup>
             </Marker>
         );
@@ -82,9 +84,9 @@ export default function map() {
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                // subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
-                // attribution="Google Maps"
-                // url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+            // subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
+            // attribution="Google Maps"
+            // url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
             />
             <LocationMarker />
         </MapContainer>
