@@ -32,10 +32,10 @@ export default function map() {
                 localStorage.setItem("userPosLng", e.latlng.lng);
 
                 await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
-                // await fetch("https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&datum=wgs&output=xml&appid=dj00aiZpPWpiVHg0aGJQa21jbyZzPWNvbnN1bWVyc2VjcmV0Jng9ZGU-")
+                    // await fetch("https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&datum=wgs&output=xml&appid=dj00aiZpPWpiVHg0aGJQa21jbyZzPWNvbnN1bWVyc2VjcmV0Jng9ZGU-")
                     .then((res) => res.json())
                     .then((data) => setUserAddress(data));
-                    // .then((res) => console.log(res));
+                // .then((res) => console.log(res));
 
                 setRadius(e.accuracy);
                 console.log(e.accuracy);
@@ -51,20 +51,20 @@ export default function map() {
 
         return position === null || userAddress.address === undefined ? null : (
             <>
-            <Marker position={position}>
-                <Popup>
-                    <h1>現在地</h1>
-                    <span>{
-                        (userAddress.address.province != undefined ? userAddress.address.province : "") +
-                        (userAddress.address.city != undefined ? userAddress.address.city : "") +
-                        (userAddress.address.suburb != undefined ? userAddress.address.suburb : "") +
-                        (userAddress.address.neighbourhood != undefined ? userAddress.address.neighbourhood : "") +
-                        (userAddress.address.road != undefined ? userAddress.address.road : "") +
-                        (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
-                    }</span>
-                </Popup>
-            </Marker>
-            <CircleMarker center={position} radius={radius} />
+                <Marker position={position}>
+                    <Popup>
+                        <h1>現在地</h1>
+                        <span>{
+                            (userAddress.address.province != undefined ? userAddress.address.province : "") +
+                            (userAddress.address.city != undefined ? userAddress.address.city : "") +
+                            (userAddress.address.suburb != undefined ? userAddress.address.suburb : "") +
+                            (userAddress.address.neighbourhood != undefined ? userAddress.address.neighbourhood : "") +
+                            (userAddress.address.road != undefined ? userAddress.address.road : "") +
+                            (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
+                        }</span>
+                    </Popup>
+                </Marker>
+                <CircleMarker center={position} radius={radius} />
             </>
         );
     }
