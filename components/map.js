@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, CircleMarker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -17,11 +17,11 @@ L.Icon.Default.mergeOptions({
 export default function map() {
     function LocationMarker() {
         const [position, setPosition] = useState(null);
+        const [radius, setRadius] = useState(null);
         // const [bbox, setBbox] = useState([]);
         const [userAddress, setUserAddress] = useState([]);
 
         const map = useMap();
-        let circle = null;
 
         useEffect(() => {
             map.locate({ watch: true, maximumAge: 1000 }).on("locationfound", async function (e) {
@@ -37,15 +37,8 @@ export default function map() {
                     .then((data) => setUserAddress(data));
                     // .then((res) => console.log(res));
 
-                const radius = e.accuracy;
-                if (circle === null) {
-                    circle = L.circle(e.latlng, radius);
-                    circle.addTo(map);
-                } else {
-                    circle.setLatLng(e.latlng);
-                    circle.setRadius(radius);
-                    circle.addTo(map);
-                }
+                setRadius(e.accuracy);
+                console.log(e.accuracy);
                 // setBbox(e.bounds.toBBoxString().split(","));
 
                 console.log("位置情報更新");
@@ -57,6 +50,7 @@ export default function map() {
         }, [map]);
 
         return position === null || userAddress.address === undefined ? null : (
+            <>
             <Marker position={position}>
                 <Popup>
                     <h1>現在地</h1>
@@ -70,6 +64,8 @@ export default function map() {
                     }</span>
                 </Popup>
             </Marker>
+            <CircleMarker center={position} radius={radius} />
+            </>
         );
     }
 
