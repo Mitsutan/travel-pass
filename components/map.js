@@ -14,7 +14,6 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow.src,
 });
 
-
 export default function map() {
     function LocationMarker() {
         const [position, setPosition] = useState(null);
@@ -32,8 +31,8 @@ export default function map() {
                 localStorage.setItem("userPosLat", e.latlng.lat);
                 localStorage.setItem("userPosLng", e.latlng.lng);
 
-                // await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
-                await fetch("https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&datum=wgs&output=json&appid=dj00aiZpPWpiVHg0aGJQa21jbyZzPWNvbnN1bWVyc2VjcmV0Jng9ZGU-")
+                await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
+                // await fetch("https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&datum=wgs&output=xml&appid=dj00aiZpPWpiVHg0aGJQa21jbyZzPWNvbnN1bWVyc2VjcmV0Jng9ZGU-")
                     .then((res) => res.json())
                     .then((data) => setUserAddress(data));
                     // .then((res) => console.log(res));
