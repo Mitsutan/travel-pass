@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, CircleMarker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -63,8 +63,8 @@ export default function map() {
                             (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
                         }</span>
                     </Popup>
+                    <Circle center={position} radius={radius} />
                 </Marker>
-                <CircleMarker center={position} radius={radius} />
             </>
         );
     }
