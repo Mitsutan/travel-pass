@@ -14,6 +14,13 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow.src,
 });
 
+export const getAddressFromYahooAPI = async (lat, lng) => {
+
+    return await fetch(`/api/proxy?lat=${lat}&lng=${lng}`)
+        .then((res) => res.json());
+
+};
+
 export default function map() {
     function LocationMarker() {
         const [position, setPosition] = useState(null);
@@ -31,14 +38,19 @@ export default function map() {
                 localStorage.setItem("userPosLat", e.latlng.lat);
                 localStorage.setItem("userPosLng", e.latlng.lng);
 
-                await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
-                    // await fetch("https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&datum=wgs&output=xml&appid=dj00aiZpPWpiVHg0aGJQa21jbyZzPWNvbnN1bWVyc2VjcmV0Jng9ZGU-")
-                    .then((res) => res.json())
-                    .then((data) => setUserAddress(data));
+                // OpenStreetMap Nominatim APIから取得
+                // await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&zoom=18&addressdetails=1&accept-language=ja")
+                // .then((res) => res.json())
+                // .then((data) => setUserAddress(data));
                 // .then((res) => console.log(res));
 
+                // Yahoo!逆ジオコーダAPIから取得
+                await getAddressFromYahooAPI(e.latlng.lat, e.latlng.lng)
+                    .then((data) => setUserAddress(data.Feature[0].Property));
+                // .then((data) => console.log(data.Feature[0].Property.AddressElement));
+
                 setRadius(e.accuracy);
-                console.log(e.accuracy);
+                // console.log(e.accuracy);
                 // setBbox(e.bounds.toBBoxString().split(","));
 
                 console.log("位置情報更新");
@@ -49,18 +61,25 @@ export default function map() {
             });
         }, [map]);
 
-        return position === null || userAddress.address === undefined ? null : (
+        // 住所結合
+        // const address = userAddress.reduce((acc, cur) => acc + cur.Name, "");
+
+        return position === null || userAddress === undefined ? null : (
             <>
                 <Marker position={position}>
                     <Popup>
                         <h1>現在地</h1>
                         <span>{
-                            (userAddress.address.province != undefined ? userAddress.address.province : "") +
-                            (userAddress.address.city != undefined ? userAddress.address.city : "") +
-                            (userAddress.address.suburb != undefined ? userAddress.address.suburb : "") +
-                            (userAddress.address.neighbourhood != undefined ? userAddress.address.neighbourhood : "") +
-                            (userAddress.address.road != undefined ? userAddress.address.road : "") +
-                            (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
+                            // OpenStreetMap Nominatim APIから取得
+                            // (userAddress.address.province != undefined ? userAddress.address.province : "") +
+                            // (userAddress.address.city != undefined ? userAddress.address.city : "") +
+                            // (userAddress.address.suburb != undefined ? userAddress.address.suburb : "") +
+                            // (userAddress.address.neighbourhood != undefined ? userAddress.address.neighbourhood : "") +
+                            // (userAddress.address.road != undefined ? userAddress.address.road : "") +
+                            // (userAddress.address.amenity != undefined ? userAddress.address.amenity : "")
+
+                            // Yahoo!逆ジオコーダAPIから取得
+                            userAddress.Address
                         }</span>
                     </Popup>
                     <Circle center={position} radius={radius} />
