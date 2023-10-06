@@ -27,6 +27,7 @@ export default function map() {
         const [radius, setRadius] = useState(null);
         // const [bbox, setBbox] = useState([]);
         const [userAddress, setUserAddress] = useState([]);
+        const [userBuilding, setUserBuilding] = useState([]);
 
         const map = useMap();
 
@@ -46,7 +47,15 @@ export default function map() {
 
                 // Yahoo!逆ジオコーダAPIから取得
                 await getAddressFromYahooAPI(e.latlng.lat, e.latlng.lng)
-                    .then((data) => setUserAddress(data.Feature[0].Property));
+                    .then((data) => {
+                        setUserAddress(data.Feature[0].Property)
+                        
+                        if (data.Feature[0].Property.Building !== undefined) {
+                            setUserBuilding(data.Feature[0].Property.Building[0].Name);
+                        } else {
+                            setUserBuilding(undefined);
+                        }
+                    });
                 // .then((data) => console.log(data.Feature[0].Property.AddressElement));
 
                 setRadius(e.accuracy);
@@ -80,6 +89,11 @@ export default function map() {
 
                             // Yahoo!逆ジオコーダAPIから取得
                             userAddress.Address
+                            
+                        }</span><br />
+                        <span>{
+                            // Yahoo!逆ジオコーダAPIから取得
+                            (userBuilding != undefined ? userBuilding : "")
                         }</span>
                     </Popup>
                     <Circle center={position} radius={radius} />
