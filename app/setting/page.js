@@ -9,14 +9,13 @@ import { useEffect, useState } from "react";
 
 export default function Setting() {
     const router = useRouter()
-    // const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null)
 
-    // useEffect(() => {
-    //     auth.onAuthStateChanged((user) => {
-    //         user ? setCurrentUser(user) : router.replace('/signin')
-    //         !user.emailVerified && router.push('/sent')
-    //     })
-    // }, [])
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            user ? setCurrentUser(user) : null
+        })
+    }, [])
 
     const logOut = async () => {
         try {
@@ -30,14 +29,14 @@ export default function Setting() {
     return (
         <main>
             <Header />
-            <div className="container">
+            <div className="container content">
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item">Web Services by Yahoo! JAPAN （https://developer.yahoo.co.jp/sitemap/）</li>
                     <li className="list-group-item">A second item</li>
                     <li className="list-group-item">A third item</li>
                 </ul>
                 <div>
-                    {/* <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre> */}
+                    <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre>
                     <button onClick={logOut}>Logout</button>
                 </div>
             </div>
