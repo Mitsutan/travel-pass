@@ -9,14 +9,14 @@ import { useEffect, useState } from "react";
 
 export default function Setting() {
     const router = useRouter()
-    const [currentUser, setCurrentUser] = useState(null)
+    // const [currentUser, setCurrentUser] = useState(null)
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            user ? setCurrentUser(user) : router.replace('/signin')
-            !user.emailVerified && router.push('/sent')
-        })
-    }, [])
+    // useEffect(() => {
+    //     auth.onAuthStateChanged((user) => {
+    //         user ? setCurrentUser(user) : router.replace('/signin')
+    //         !user.emailVerified && router.push('/sent')
+    //     })
+    // }, [])
 
     const logOut = async () => {
         try {

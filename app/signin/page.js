@@ -15,7 +15,7 @@ const Login = () => {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             console.log(user);
-            user && router.push('/')
+            user && router.replace('/')
         })
     }, [])
 
@@ -64,7 +64,7 @@ const Login = () => {
                     signup
                 </Link>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }
