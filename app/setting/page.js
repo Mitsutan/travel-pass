@@ -12,7 +12,7 @@ import AuthGuard from "@/components/auth-guard";
 export default function Setting() {
     const router = useRouter()
     // const [currentUser, setCurrentUser] = useState(null)
-    // console.log(useContext(AuthContext));
+    console.log(useContext(AuthContext));
 
     // useEffect(() => {
     //     auth.onAuthStateChanged((user) => {
