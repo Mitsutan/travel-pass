@@ -5,17 +5,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase/firebase-conf";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../lib/firebase/auth/auth-provider";
+import AuthGuard from "@/components/auth-guard";
 
 export default function Setting() {
     const router = useRouter()
-    const [currentUser, setCurrentUser] = useState(null)
+    // const [currentUser, setCurrentUser] = useState(null)
+    // console.log(useContext(AuthContext));
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            user ? setCurrentUser(user) : null
-        })
-    }, [])
+    // useEffect(() => {
+    //     auth.onAuthStateChanged((user) => {
+    //         user ? setCurrentUser(user) : null
+    //     })
+    // }, [])
 
     const logOut = async () => {
         try {
@@ -29,18 +32,21 @@ export default function Setting() {
     return (
         <main>
             <Header />
-            <div className="container content">
-                <ul className="list-group list-group-flush">
-                    <li className="list-group-item">Web Services by Yahoo! JAPAN （https://developer.yahoo.co.jp/sitemap/）</li>
-                    <li className="list-group-item">A second item</li>
-                    <li className="list-group-item">A third item</li>
-                </ul>
-                <div>
-                    <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre>
-                    <button onClick={logOut}>Logout</button>
+            <AuthGuard>
+                <div className="container content">
+                    <ul className="list-group list-group-flush">
+                        <li className="list-group-item">Web Services by Yahoo! JAPAN （https://developer.yahoo.co.jp/sitemap/）</li>
+                        <li className="list-group-item">A second item</li>
+                        <li className="list-group-item">A third item</li>
+                    </ul>
+                    <div>
+                        {/* <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre> */}
+                        <pre>{JSON.stringify(useContext(AuthContext).currentUser)}</pre>
+                        <button onClick={logOut}>Logout</button>
+                    </div>
                 </div>
-            </div>
-            <Footer />
+                <Footer />
+            </AuthGuard>
         </main>
     );
 };

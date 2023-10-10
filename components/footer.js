@@ -10,19 +10,19 @@ import { useRouter } from "next/navigation";
 
 export default function Footer() {
     const router = useRouter()
-    const [currentUser, setCurrentUser] = useState(null)
+    // const [currentUser, setCurrentUser] = useState(null)
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            // user ? setCurrentUser(user) :  router.replace('/signin')
-            if (user) {
-                setCurrentUser(user)
-                !user.emailVerified && router.push('/sent')
-            } else {
-                router.replace('/signin')
-            }
-        })
-    }, [])
+    // useEffect(() => {
+    //     auth.onAuthStateChanged((user) => {
+    //         // user ? setCurrentUser(user) :  router.replace('/signin')
+    //         if (user) {
+    //             setCurrentUser(user)
+    //             !user.emailVerified && router.push('/sent')
+    //         } else {
+    //             router.replace('/signin')
+    //         }
+    //     })
+    // }, [])
 
     return (
         <footer className="p-2 border-top border-2">

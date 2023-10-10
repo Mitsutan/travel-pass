@@ -1,11 +1,12 @@
 'use client'
 
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { use, useContext } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import AuthGuard from "@/components/auth-guard";
 
 
 function MapPage() {
@@ -26,8 +27,10 @@ function MapPage() {
   return (
     <main>
       <Header />
-      <Map />
-      <Footer />
+      <AuthGuard>
+        <Map />
+        <Footer />
+      </AuthGuard>
     </main>
   );
 }
