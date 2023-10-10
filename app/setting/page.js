@@ -23,7 +23,7 @@ export default function Setting() {
     const logOut = async () => {
         try {
             await signOut(auth)
-            router.replace('/signin')
+            // router.replace('/signin')
         } catch (error) {
             alert(error.message)
         }
