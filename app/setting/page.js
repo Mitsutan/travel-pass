@@ -41,7 +41,7 @@ export default function Setting() {
                     </ul>
                     <div>
                         {/* <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre> */}
-                        <pre>{JSON.stringify(useContext(AuthContext).currentUser)}</pre>
+                        {/* <pre>{JSON.stringify(useContext(AuthContext).currentUser)}</pre> */}
                         <button onClick={logOut}>Logout</button>
                     </div>
                 </div>
