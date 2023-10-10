@@ -1,3 +1,4 @@
+"use client"
 import { AuthContext } from "@/app/lib/firebase/auth/auth-provider"
 import { useRouter } from "next/navigation"
 import { useContext } from "react"
