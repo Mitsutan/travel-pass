@@ -4,12 +4,25 @@ import { useContext } from "react"
 
 const AuthGuard = ({ children }) => {
     const router = useRouter()
+    const user = useContext(AuthContext).currentUser
 
-    if (useContext(AuthContext).currentUser === undefined) {
+    if (user === undefined) {
         router.replace('/signin')
-        return null
-    } else if (useContext(AuthContext).currentUser === null) {
-        return null
+        return (<>
+            <div className="d-flex justify-content-center align-items-center vh-100">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </>)
+    } else if (user === null) {
+        return (<>
+            <div className="d-flex justify-content-center align-items-center vh-100">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </>)
     } else {
         return <>{children}</>
     }
