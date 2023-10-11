@@ -13,6 +13,7 @@ const AuthGuard = ({ children }) => {
         // router.replace('/signin')
         return null
     } else if (user === null) {
+        router.replace('/signin')
         return null
     } else {
         return <>{children}</>
