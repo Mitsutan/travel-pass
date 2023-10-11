@@ -4,12 +4,12 @@ import { faGear, faHouse } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { auth } from "@/app/lib/firebase/firebase-conf";
-import { useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
+// import { auth } from "@/app/lib/firebase/firebase-conf";
+// import { useRouter } from "next/navigation";
 
 export default function Footer() {
-    const router = useRouter()
+    // const router = useRouter()
     // const [currentUser, setCurrentUser] = useState(null)
 
     // useEffect(() => {
