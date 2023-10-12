@@ -11,10 +11,10 @@ const AuthGuard = ({ children }) => {
             router.replace('/signin')
         }, [])
         // router.replace('/signin')
-        return null
+        return (<p>undefined</p>)
     } else if (user === null) {
         router.replace('/signin')
-        return null
+        return (<p>null</p>)
     } else {
         return <>{children}</>
     }
