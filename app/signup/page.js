@@ -3,10 +3,11 @@ import { FC, useEffect, useState } from 'react'
 // import { useRouter } from 'next/router'
 import Link from 'next/link'
 
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { auth } from '../lib/firebase/firebase-conf';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
+import { auth, db } from '../lib/firebase/firebase-conf';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 
 const SignUp = () => {
@@ -23,13 +24,30 @@ const SignUp = () => {
 
   const createUser = async (e) => {
     e.preventDefault()
-    try {
+    // try {
       await createUserWithEmailAndPassword(auth, email, password)
+      await updateProfile(auth.currentUser, { displayName: 'ほげほげ' })
+
+      // const userDoc = getDoc(collection(db, 'users'))
+      // if (!(await userDoc).exists()) {
+        // Firestore にユーザー用のドキュメントが作られていなければ作る
+        // await userDoc.ref.set({
+        //   screen_name: auth.currentUser.uid,
+        //   display_name: '名無しさん',
+        //   created_at: db.FieldValue.serverTimestamp(),
+        // });
+        setDoc(doc(db, "users", auth.currentUser.uid), {
+          screen_name: auth.currentUser.uid,
+          display_name: '名無しさん',
+          created_at: serverTimestamp(),
+        })
+      // }
+
       await sendEmailVerification(auth.currentUser)
       // router.push('/sent')
-    } catch (err) {
-      alert(err.message)
-    }
+    // } catch (err) {
+    //   alert(err.message)
+    // }
   }
 
 
