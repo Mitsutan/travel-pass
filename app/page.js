@@ -7,19 +7,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import AuthGuard from "@/components/auth-guard";
+import Loading from "@/components/loading";
 
 
 function MapPage() {
   const Map = React.useMemo(
     () =>
       dynamic(() => import("../components/map"), {
-        loading: () => <>
-          <div className="d-flex justify-content-center align-items-center vh-100">
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        </>,
+        loading: () => <Loading />,
         ssr: false,
       }),
     []

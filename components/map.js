@@ -107,7 +107,8 @@ export default function map() {
             center={localStorage.getItem("userPosLat") ? [localStorage.getItem("userPosLat"), localStorage.getItem("userPosLng")] : [35.681236, 139.767125]}
             zoom={13}
             scrollWheelZoom
-            style={{ minHeight: "80vh" }}
+            // style={{ minHeight: "80vh" }}
+            className="content"
         >
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -38,11 +38,11 @@ export default function Setting() {
                         <li className="list-group-item">Web Services by Yahoo! JAPAN （https://developer.yahoo.co.jp/sitemap/）</li>
                         <li className="list-group-item">A second item</li>
                         <li className="list-group-item">A third item</li>
+                        <button type="button" class="list-group-item list-group-item-action" onClick={logOut}>サインアウト</button>
                     </ul>
                     <div>
                         {/* <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre> */}
                         {/* <pre>{JSON.stringify(useContext(AuthContext).currentUser)}</pre> */}
-                        <button onClick={logOut}>Logout</button>
                     </div>
                 </div>
                 <Footer />

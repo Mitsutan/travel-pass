@@ -5,6 +5,9 @@ export default function Test() {
     return (
         <main>
             <Header />
+            <div className="content">
+                <h1>Test</h1>
+            </div>
             <Footer />
         </main>
     );
