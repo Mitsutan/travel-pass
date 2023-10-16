@@ -9,10 +9,10 @@ const AuthGuard = ({ children }) => {
 
     if (user === undefined) {
         // useEffect(() => {
-            // router.replace('/signin')
+        // router.replace('/signin')
         // }, [])
         // router.replace('/signin')
-        return (<Loading />)
+        return (<><Loading /><footer className="p-2 border-top border-2"></footer></>)
     } else if (user === null) {
         router.replace('/signin')
         return (<p>未ログイン(null)</p>)

@@ -12,6 +12,8 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const [isLoading, setIsLoading] = useState(false)
+
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             console.log(user);
@@ -21,6 +23,7 @@ const Login = () => {
 
     const logIn = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         try {
             await signInWithEmailAndPassword(auth, email, password)
             console.log(auth.currentUser);
@@ -28,6 +31,8 @@ const Login = () => {
 
         } catch (err) {
             alert(err.message)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -58,8 +63,18 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <button className='btn btn-primary mb-3' type="submit">
-                        サインイン
+                    <button className='btn btn-primary mb-3' type="submit" disabled={isLoading}>
+                        {
+                            isLoading ? (<>
+                                <div className="spinner-border spinner-border-sm text-light me-2" role="status">
+                                    {/* <span className="visually-hidden">Loading...</span> */}
+                                </div>
+                                <span>認証中</span>
+                                </>
+                            ) : (
+                                <>サインイン</>
+                            )
+                        }
                     </button>
                 </form>
                 <Link href="/signup">
