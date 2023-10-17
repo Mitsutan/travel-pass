@@ -14,6 +14,8 @@ const Login = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
+    const [error, setError] = useState(null)
+
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             console.log(user);
@@ -30,7 +32,30 @@ const Login = () => {
             router.replace('/')
 
         } catch (err) {
-            alert(err.message)
+            // alert(err)
+            console.log(err.code);
+
+            switch (err.code) {
+                case 'auth/invalid-email':
+                    setError('メールアドレスが不正です。')
+                    break;
+
+                case 'auth/missing-password':
+                    setError('パスワードが入力されていません。')
+                    break;
+
+                case 'auth/invalid-login-credentials':
+                    setError('メールアドレスまたはパスワードが間違っています。')
+                    break;
+
+                case 'auth/network-request-failed':
+                    setError('ネットワークエラーが発生しました。')
+                    break;
+
+                default:
+                    setError('不明なエラーが発生しました。')
+                    break;
+            }
         } finally {
             setIsLoading(false)
         }
@@ -40,6 +65,14 @@ const Login = () => {
         <>
             <Header />
             <div className='container content'>
+                <h1>アプリ名</h1>
+                {
+                    error && (
+                        <div className="alert alert-danger" role="alert">
+                            {error}
+                        </div>
+                    )
+                }
                 <form className='mt-3' onSubmit={logIn}>
                     <div className='mb-3'>
                         <label className='form-label' htmlFor="email">
@@ -50,6 +83,7 @@ const Login = () => {
                             id="email"
                             type="email"
                             onChange={(e) => setEmail(e.target.value)}
+                            required
                         />
                     </div>
                     <div className='mb-3'>
@@ -61,6 +95,7 @@ const Login = () => {
                             id="password"
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
                     </div>
                     <button className='btn btn-primary mb-3' type="submit" disabled={isLoading}>

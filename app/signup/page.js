@@ -19,6 +19,8 @@ const SignUp = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const [error, setError] = useState(null)
+
   // useEffect(() => {
   //   auth.onAuthStateChanged((user) => {
   //     // user && router.push('/')
@@ -43,7 +45,29 @@ const SignUp = () => {
       await sendEmailVerification(auth.currentUser)
       // router.push('/sent')
     } catch (err) {
-      alert(err.message)
+      console.log(err.code);
+
+      switch (err.code) {
+        case 'auth/invalid-email':
+          setError('メールアドレスが不正です。')
+          break;
+
+        case 'auth/weak-password':
+          setError('パスワードは6文字以上で入力してください。')
+          break;
+
+        case 'auth/email-already-in-use':
+          setError('メールアドレスは既に使用されています。')
+          break;
+
+        case 'auth/network-request-failed':
+          setError('ネットワークエラーが発生しました。')
+          break;
+
+        default:
+          setError('不明なエラーが発生しました。')
+          break;
+      }
     } finally {
       setIsLoading(false)
     }
@@ -54,6 +78,14 @@ const SignUp = () => {
     <>
       <Header />
       <div className='container content'>
+        <h1>アプリ名</h1>
+        {
+          error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )
+        }
         <form className='mt-3' onSubmit={createUser}>
           <div className='mb-3'>
             <label className='form-label' htmlFor="email">
@@ -64,6 +96,7 @@ const SignUp = () => {
               id="email"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className='mb-3'>
@@ -75,6 +108,7 @@ const SignUp = () => {
               id="password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className='mb-3'>
@@ -86,14 +120,15 @@ const SignUp = () => {
               id="name"
               type="text"
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
           <div className='mb-3'>
             <label className='form-label' htmlFor="prefecture">
               居住地{' '}
             </label>
-            <select className='form-select' id="prefecture" defaultValue={0} onChange={(e) => setPrefecture(e.target.value)}>
-              <option value="0" disabled>選択してください</option>
+            <select className='form-select' id="prefecture" defaultValue={0} onChange={(e) => setPrefecture(e.target.value)} required>
+              <option value="0" hidden>選択してください</option>
               <optgroup label="北海道・東北地方">
                 <option value="1">北海道</option>
                 <option value="2">青森県</option>
