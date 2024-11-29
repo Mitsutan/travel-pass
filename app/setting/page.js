@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../lib/firebase/auth/auth-provider";
 import AuthGuard from "@/components/auth-guard";
+import Link from "next/link";
 
 export default function Setting() {
     const router = useRouter()
@@ -38,7 +39,8 @@ export default function Setting() {
                         <li className="list-group-item">Web Services by Yahoo! JAPAN （https://developer.yahoo.co.jp/sitemap/）</li>
                         <li className="list-group-item">A second item</li>
                         <li className="list-group-item">A third item</li>
-                        <button type="button" class="list-group-item list-group-item-action" onClick={logOut}>サインアウト</button>
+                        <Link href="/setting/profile" className="list-group-item">プロフィール</Link>
+                        <button type="button" className="list-group-item list-group-item-action" onClick={logOut}>サインアウト</button>
                     </ul>
                     <div>
                         {/* <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre> */}
